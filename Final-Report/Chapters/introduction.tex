@@ -23,11 +23,11 @@ More in detail, the step-by-step procedure followed to perform the classificatio
     \item Classification: the encoded text from the previous point is classified using a \textit{Na\"{i}ve Bayes} classifier as point (3);
 \end{enumerate}
 \subsection{Proposed model}
-The proposed model follows the same logical concept as the baseline but with a completely different approach.\\
-Very briefly, the proposed model consists in :
+The proposed model follows the same logical workflow as the baseline but with a completely different approach.\\
+Very briefly, the proposed model consists in using :
 \begin{itemize}
-    \item the \textit{Bert Tokenizer}\cite{tokenizer} to extract the features from the text and the \textit{BertModel}\cite{model};
+    \item a \textit{Bert Tokenizer} \cite{tokenizer} to extract the features from the text and a \textit{BertModel} \cite{model} to derive the embeddings;
     \item a shallow \textit{BiLSTM} network used to filter objective movie reviews from the Movie Review dataset, accepting the output of the previous point as input;
-    \item a \textit(BertForSequenceClassification) to perform the final classification on the MovieReviews dataset as a whole.
+    \item a \textit{BertForSequenceClassification} to perform the final classification on the MovieReviews dataset as a whole.
 \end{itemize}
 
