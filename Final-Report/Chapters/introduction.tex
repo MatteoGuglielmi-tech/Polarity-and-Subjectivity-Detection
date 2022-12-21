@@ -1,0 +1,33 @@
+\section{Introduction}
+\label{sec:intro}
+Sentiment analysis consists in performing sentence classification with the final goal to predict whether a sentence/review/comment expresses a positive or negative sentiment.\\ 
+Sentiment analysis is a very important task in the field of Natural Language Processing (NLP) and has been studied for many years. It is a very challenging task because of the presence of negation, sarcasm, irony, and other linguistic phenomena that make the task very difficult.\\   
+From a commercial point of view, sentiment analysis is a very important task because it can be used to automatically analyze the opinion of the customers about a product or a service. For the latter reason, many industries are interested in this specific applicatio to understand the degree of appreciation a specific product has.\\
+
+As briefly mentioned before, in this work I'll be comparing two different models to perform Sentiment and polarity classification. 
+\subsection{Baseline}
+The baseline model consists in :
+\begin{itemize}
+    \item a \textit{CountVectorizer}\cite{vectorizer}, which acts as an encoder, to extract the features from the text;
+    \item a \textit{Na\"{i}ve Bayes}\cite{naive} classifier to perform the final classification.
+\end{itemize}
+It is worth mentioning that both datasets were pre-processed applying double negative marking to consider double negations (double negations corresponds to a neutral effect).\\
+More in detail, the step-by-step procedure followed to perform the classification is the following:
+\begin{enumerate}
+    \item Pre-processing: the text is pre-processed by collapsing the severale sentences in documents and the double negations are marked
+    \item Feature extraction: the text belonging to the Subjectivity dataset is encoded using a \textit{CountVectorizer} which counts the number of occurrences of each word in the text;
+    \item Classification: the encoded text from the previous point is classified using a \textit{Na\"{i}ve Bayes} classifier;
+    \item Evaluation: the classification is evaluated using a 10-fold cross-validation precedure exloiting the \textit{accuracy} metric to address the overall performances;
+    \item Filtering : the trained model is used to filter the objective sentences from the Movie Review dataset;    
+    \item Feature extraction: the text belonging to the Movie Review dataset is encoded using a \textit{CountVectorizer} as point (2);
+    \item Classification: the encoded text from the previous point is classified using a \textit{Na\"{i}ve Bayes} classifier as point (3);
+\end{enumerate}
+\subsection{Proposed model}
+The proposed model follows the same logical concept as the baseline but with a completely different approach.\\
+Very briefly, the proposed model consists in :
+\begin{itemize}
+    \item the \textit{Bert Tokenizer}\cite{tokenizer} to extract the features from the text and the \textit{BertModel}\cite{model};
+    \item a shallow \textit{BiLSTM} network used to filter objective movie reviews from the Movie Review dataset, accepting the output of the previous point as input;
+    \item a \textit(BertForSequenceClassification) to perform the final classification on the MovieReviews dataset as a whole.
+\end{itemize}
+
