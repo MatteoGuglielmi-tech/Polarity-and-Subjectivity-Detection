@@ -2,8 +2,8 @@
 1. [Polarity and Subjectivity Detection](#introduction)
   1. [Project statement](#state)
   2. [Datasets](#datasets)
-  3. [Pipeline](#pipe)
-    1.[Baseline](#base)
+  3. [Pipeline](#pipe)  
+    1.[Baseline](#base)  
     2.[Custom model](#custom)
   4. [Results](#res)
 
