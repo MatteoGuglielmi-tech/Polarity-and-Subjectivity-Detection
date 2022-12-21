@@ -3,8 +3,8 @@
   1. [Project statement](#state)
   2. [Datasets](#datasets)
   3. [Pipeline](#pipe)  
-    1.[Baseline](#base)  
-    2.[Custom model](#custom)
+    1. [Baseline](#base)  
+    2. [Custom model](#custom)
   4. [Results](#res)
 
 # Polarity and Subjectivity Detection<a name="introduction"></a>
@@ -24,7 +24,7 @@ This work focuses on the comparison between a baseline model and a custom model.
 ### Baseline<a name="base"></a>
 The baseline implementation can be found [here](https://github.com/MatteoGuglielmi-tech/Polarity-and-Subjectivity-Detection/blob/main/src/BaselineModel.ipynb) and it is used to have a reference polarity accuracy to surpass with the custom model. This shallow models exploit both [CountVectorizer](https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.CountVectorizer.html) and [NaiveBayesClassifier](https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB).
 
-###Custom model<a name="custom"></a>
+### Custom model<a name="custom"></a>
 The custom model implementation can be found [here](https://github.com/MatteoGuglielmi-tech/Polarity-and-Subjectivity-Detection/blob/main/src/Matteo_Guglielmi_232088.ipynb). In addition, the training procedure for the BertForSequenceClassification model, which is part of the pipeline in [Matteo_Guglielmi_232088.ipynb](https://github.com/MatteoGuglielmi-tech/Polarity-and-Subjectivity-Detection/blob/main/src/Matteo_Guglielmi_232088.ipynb), can be found [here](https://github.com/MatteoGuglielmi-tech/Polarity-and-Subjectivity-Detection/blob/main/src/BinaryClassifier.ipynb).
 The main notebook consits in:
 - training a relative shallow BiLSTM network for subjectivity detection
