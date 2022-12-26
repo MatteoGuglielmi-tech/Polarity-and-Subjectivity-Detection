@@ -32,4 +32,4 @@ The main notebook consits in:
 - perform polarity classification, exploiting the previously trained [BinaryClassifier.ipynb](https://github.com/MatteoGuglielmi-tech/Polarity-and-Subjectivity-Detection/blob/main/src/BinaryClassifier.ipynb) and observing the results.
 
 ## Results<a name="res"></a>
-The baseline models reaches a polarity classification accuracy of $0.832$ ($83\%$) while the custom model achieve is able to significantly improve the performance reaching  cumulative accuracy of $0.928$ ($92.83\%$)
+The baseline models reaches a polarity classification accuracy of $0.832$ (83\%) while the custom model achieve is able to significantly improve the performance reaching  cumulative accuracy of $0.928$ (92.83\%)
