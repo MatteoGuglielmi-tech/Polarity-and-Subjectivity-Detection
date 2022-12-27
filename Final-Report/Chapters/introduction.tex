@@ -8,26 +8,26 @@ As briefly mentioned before, in this work I'll be comparing two different models
 \subsection{Baseline}
 The baseline model consists in :
 \begin{itemize}
-    \item a \textit{CountVectorizer}\cite{vectorizer}, which acts as an encoder, to extract the features from the text;
-    \item a \textit{Na\"{i}ve Bayes}\cite{naive} classifier to perform the final classification.
+    \item a \texttt{CountVectorizer}\cite{vectorizer}, which acts as an encoder, to extract the features from the text;
+    \item a \texttt{Na\"{i}ve Bayes}\cite{naive} classifier to perform the final classification.
 \end{itemize}
 It is worth mentioning that both datasets were pre-processed applying double negative marking to consider double negations (double negations corresponds to a neutral effect).\\
 More in detail, the step-by-step procedure followed to perform the classification is the following:
 \begin{enumerate}
     \item Pre-processing: the text is pre-processed by collapsing the severale sentences in documents and the double negations are marked
-    \item Feature extraction: the text belonging to the Subjectivity dataset is encoded using a \textit{CountVectorizer} which counts the number of occurrences of each word in the text;
-    \item Classification: the encoded text from the previous point is classified using a \textit{Na\"{i}ve Bayes} classifier;
-    \item Evaluation: the classification is evaluated using a 10-fold cross-validation precedure exloiting the \textit{accuracy} metric to address the overall performances;
+    \item Feature extraction: the text belonging to the Subjectivity dataset is encoded using a \texttt{CountVectorizer} which counts the number of occurrences of each word in the text;
+    \item Classification: the encoded text from the previous point is classified using a \texttt{Na\"{i}ve Bayes} classifier;
+    \item Evaluation: the classification is evaluated using a 10-fold cross-validation precedure exloiting the \texttt{accuracy} metric to address the overall performances;
     \item Filtering : the trained model is used to filter the objective sentences from the Movie Review dataset;    
-    \item Feature extraction: the text belonging to the Movie Review dataset is encoded using a \textit{CountVectorizer} as point (2);
-    \item Classification: the encoded text from the previous point is classified using a \textit{Na\"{i}ve Bayes} classifier as point (3);
+    \item Feature extraction: the text belonging to the Movie Review dataset is encoded using a \texttt{CountVectorizer} as point (2);
+    \item Classification: the encoded text from the previous point is classified using a \texttt{Na\"{i}ve Bayes} classifier as point (3);
 \end{enumerate}
 \subsection{Proposed model}
 The proposed model follows the same logical workflow as the baseline but with a completely different approach.\\
 Very briefly, the proposed model consists in using :
 \begin{itemize}
-    \item a \textit{Bert Tokenizer} \cite{tokenizer} to extract the features from the text and a \textit{BertModel} \cite{model} to derive the embeddings;
-    \item a shallow \textit{BiLSTM} network used to filter objective movie reviews from the Movie Review dataset, accepting the output of the previous point as input;
-    \item a \textit{BertForSequenceClassification} to perform the final classification on the MovieReviews dataset as a whole.
+    \item a \texttt{Bert Tokenizer} \cite{tokenizer} to extract the features from the text and a \texttt{BertModel} \cite{model} to derive the embeddings;
+    \item a shallow \texttt{BiLSTM} network used to filter objective movie reviews from the Movie Review dataset, accepting the output of the previous point as input;
+    \item a \texttt{BertForSequenceClassification} to perform the final classification on the MovieReviews dataset as a whole.
 \end{itemize}
 

@@ -1,14 +1,40 @@
-\documentclass[a4paper]{article}
+\documentclass[a4paper, 10pt]{article}
 
 \usepackage{INTERSPEECH2021}
-\usepackage{url}
 
-\title{Final NLU project report}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+\usepackage{xcolor,soul,framed} %,caption
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{cite}
+\usepackage[super]{nth}
+\usepackage[para]{threeparttable}
+\usepackage{float}
+\usepackage{tabularx}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{breakurl}
+
+\newcommand*{\thead}[1]{%
+\multicolumn{1}{c}{\bfseries\begin{tabular}{@{}c@{}}#1\end{tabular}}}
+
+\def\UrlBreaks{\do\/\do-}
+
+\DeclareMathOperator*{\argmax}{arg\,min}
+
+\title{\LARGE{Subjectivity and Polarity Classification with Deep models}\\
+\large{\textit{Final Project of the Natural Language Understanding Course}}}
 \name{Matteo Guglielmi (232088)}
 
-\address{
-  University of Trento}
+\address{University of Trento}
 \email{matteo.guglielmi@studenti.unitn.it}
+
+% CLI command to count words :  texcount -inc Final-Report.tex file wise
+%                               texcount -inc -total Final-Report.tex   total words
 
 \begin{document}
 
@@ -17,14 +43,24 @@
 \begin{abstract}
     This work focuses on explaining the salient steps taken to implement a Sentiment Analysis algorithm that consists in \textit{Subjectivity} and \textit{Polarity Classification}.\\
     More in detail, a custom model is compared to a baseline in order to highlight the improvements achieved. To carry out this project, three different datasets were used : 
-    the "\textit{MovieRewievs}" and  "\textit{Subjectivity}" datasets both downloaded from the NLTK python module and the public "\textit{IMDB}" dataset dowloaded from Kaggle\cite{kaggle}.\\
+    the "\texttt{MovieReviews}" and  "\texttt{Subjectivity}" datasets both downloaded from the NLTK python module and the public "\texttt{IMDB}" dataset dowloaded from Kaggle\cite{kaggle}.\\
 \end{abstract}
+
+
+\textbf{\textit{Index Terms ---}} BertModel, BertTokenizer, BertForSequenceClassification, polarity classification, subjectivity detection, transformer,
+pre-trained
+
 
 \input{Chapters/introduction.tex}
 \input{Chapters/task.tex}
+\input{Chapters/datasets.tex}
+\input{Chapters/model.tex}
+\input{Chapters/evaluation.tex}
+\input{Chapters/conclusion.tex}
+
 
 
 \bibliographystyle{IEEEtran}
-\bibliography{mybib}
+\bibliography{mybib.bib}
 
 \end{document}
