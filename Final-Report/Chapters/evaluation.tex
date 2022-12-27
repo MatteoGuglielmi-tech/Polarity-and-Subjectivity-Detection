@@ -137,7 +137,6 @@ Investigating the final results on the polarity dataset, it is possible to appre
 It is worth mentioning that the "x" on the \texttt{accuracy} column of the table means that the model has not been tested multiple times on the polarity dataset since the latter is used just for evaluation
 purposes as discussed in \Cref{subsec:mr}.\\
 
-
 \begin{center}
     \begin{threeparttable}
     \caption{Comparison between the baseline and the proposed model}
@@ -152,3 +151,31 @@ purposes as discussed in \Cref{subsec:mr}.\\
         \label{tab:finalres}
     \end{threeparttable}
 \end{center}
+
+
+\subsection{Error Analysis}
+\label{subsec:err}
+In this section, the errors made by the proposed model are analysed in order to understand the reasons behind them.\\
+Since the task consist in predicting the polarity of a sentence, it is never easy to dig into the possible causes of errors. However, based on how the implementation 
+of the model is structured, it is possible to identify possible error sources in the elements that builds the model itself, in particular:
+\begin{itemize}
+
+    \item the BiLSTM model performances may be influenced by the lack of an attention mechanism, which is a common technique used to improve the ability of a model when 
+        dealing with sequences and time series. In this particular case, the sentences within the subjectivity dataset are not very long ($100\%$ of the sentences are 
+        $66$ words long or shorter), so the lack of an attention mechanism shoudn't represent a big issue even though it may a possible improvement to experiment;
+
+    \item another source of error, that for sure it may be improved, is that the BERT model used to extract the encodings truncate the sentences to a maximum length of $512$ 
+        words. This means that the model is not able to take into account the whole sentence, which may be a problem when dealing with long sentences. As previsouly anticpated,
+        this doesn't represent a problem when dealing with the subjectivity dataset since the sentences are not very long, but it may be a problem when dealing with the 
+        polarity dataset since each document contains far more than $512$ words. In light of this, different experiments were conducted with the final goal of reducing the 
+        maximum length of the sentences to be fed to the BERT model (e.g. filtering the text as mentioned in \Cref{subsec:exp}) without the desired results. \\
+        One possible solution to this problem is to use a different embedder such as GloVe ~\cite{glove} or Word2Vec ~\cite{word2vec} which should't manifest the problem of 
+        truncating to a maximum length.
+
+\end{itemize}
+
+One elegant alternative to the proposed model would be to exploit a multi-task learning approach, i.e. to train the model on both the subjectivity and the polarity datasets 
+and perform classification simulatnesously. This approach would allow the model to learn the dependencies between the words in a sentence and the polarity of the document.
+However, the disparity between size of the datasets would make this method pretty difficult to apply since there's the implicit requirement of having datasets of the same
+dimension. One possible solution would be shrinking the subjectivity dataset to the lenght of the polarity dataset. However, this approach would require a lot of 
+computational resources and time, which are not available in this project. As a reference for this work, please refer to ~\cite{mtl}.\\
