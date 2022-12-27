@@ -88,21 +88,67 @@ In this particular section, the results obtained across different runs and exper
 
 
 In \textbf{\Cref{fig:singlerunacc}} and \textbf{\Cref{fig:singlerunloss}} it is possible to respectively appreciate the training and 
-evaluation accuracies and losses, on a single run for the BiLSTM model (discussed in \Cref{subsec:cutsom}. \\
+evaluation accuracies and losses, on a single run for the BiLSTM model (discussed in \Cref{subsec:cutsom}). \\
 Since a single run is not very expressive and fully reliable, I decided to perform a 5-fold cross validation addressing both the average 
-accuracy as well as the variance across the different runs (for details refer to )
+accuracy as well as the variance across the different runs (for details refer to \Cref{tab:crossval}).\\
+
+\begin{center}
+    \begin{threeparttable}
+    \caption{5-fold cross validation subjectivity results using BiLSTM model}
+        \begin{tabular}{cc}
+            \toprule
+            \thead{Seeds} & \thead{Accuracy} \\
+            \hline
+            $91$ & $89.5$ \\
+            $11$ & $90.8$ \\
+            $57$ & $91.05$\\
+            $822$ & $90.25$\\
+            $19$ & $89.1$ \\
+            \hline
+            Avg. Acc. & $90.14$ \\
+            \hline
+            Acc. Var. & $0.74$ \\
+            \bottomrule
+        \end{tabular}
+        \label{tab:crossval}
+    \end{threeparttable}
+\end{center}
+
+The main reason behind using a BiLSTM model is to try to better catch the dependencies between the words in a sentence. The results turned out to be worse than the ones obtained with the baseline from 
+the cumulative accuracy perspective but better in terms of consistency and stableness. Indeed, using the same evaluation metric, the average statistics, listed in \Cref{tab:comparison}, 
+shows that the baseline reaches a better percentual average accuracy but a higher variance across the different runs, i.e. seems to be more unstable and inconsistent.\\
+
+\begin{center}
+    \begin{threeparttable}
+    \caption{Comparison between the baseline and the BiLSTM model}
+        \begin{tabular}{ccc}
+            \toprule
+            \thead{Model} & \thead{Accuracy} & \thead{Variance}\\
+            \hline
+            Baseline & $90.75\%$ & $0.00013765$ \\
+            Custom Model & $90.14\%$ & $5.534000000000004e-05$\\
+            \bottomrule
+        \end{tabular}
+        \label{tab:comparison}
+    \end{threeparttable}
+\end{center}
+
+Investigating the final results on the polarity dataset, it is possible to appreciate that the proposed model reaches a better accuracy than the baseline, as shown in \Cref{tab:finalres}.\\
+It is worth mentioning that the "x" on the \texttt{accuracy} column of the table means that the model has not been tested multiple times on the polarity dataset since the latter is used just for evaluation
+purposes as discussed in \Cref{subsec:mr}.\\
 
 
 \begin{center}
     \begin{threeparttable}
-    \caption{5-fold cross validation polarity results}
-        \begin{tabular}{cccccccc}
+    \caption{Comparison between the baseline and the proposed model}
+        \begin{tabular}{ccc}
+            \toprule
+            \thead{Model} & \thead{Accuracy} & \thead{Variance}\\
             \hline
-            \thead{Seeds} & \thead{91} & \thead{11} & \thead{57} & \thead{822} & \thead{19} & \thead{Avg} & \thead{Var}\\
-            \hline
-            Accuracy & $89.5$ & $90.8$ & $91.05$ & $90.25$ & $89.1$ & $90.14$ & $0.74$\\
-            \hline
+            Baseline & $83.2\%$ & $0.00112$\\
+            Custom Model & $92.83\%$ & x\\
+            \bottomrule
         \end{tabular}
-        \label{tab:ks}
+        \label{tab:finalres}
     \end{threeparttable}
 \end{center}
