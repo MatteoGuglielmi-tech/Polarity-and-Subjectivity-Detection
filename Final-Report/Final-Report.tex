@@ -1,4 +1,4 @@
-\documentclass[a4paper, 9pt]{article}
+\documentclass[a4paper, 8pt]{article}
 
 \usepackage{INTERSPEECH2021}
 
@@ -11,7 +11,7 @@
 \usepackage{url}
 \usepackage{cite}
 \usepackage[super]{nth}
-\usepackage[para]{threeparttable}
+\usepackage{threeparttable, booktabs}
 \usepackage{float}
 \usepackage{tabularx}
 \usepackage{amssymb}
@@ -21,6 +21,11 @@
 
 \newcommand*{\thead}[1]{%
 \multicolumn{1}{c}{\bfseries\begin{tabular}{@{}c@{}}#1\end{tabular}}}
+
+%redefinition of spaces between text and table/figures
+\setlength{\textfloatsep}{10pt plus 1.0pt minus 2.0pt}
+% \setlength{\floatsep}{10pt plus 1.0pt minus 2.0pt}
+\setlength{\intextsep}{10pt plus 1.0pt minus 2.0pt}
 
 \def\UrlBreaks{\do\/\do-}
 
@@ -41,15 +46,14 @@
 \maketitle
 
 \begin{abstract}
-    This work focuses on explaining the salient steps taken to implement a Sentiment Analysis algorithm that consists in \textit{Subjectivity} and \textit{Polarity Classification}.\\
-    More in detail, a custom model is compared to a baseline in order to highlight the improvements achieved. To carry out this project, three different datasets were used : 
-    the "\texttt{MovieReviews}" and  "\texttt{Subjectivity}" datasets both downloaded from the NLTK python module and the public "\texttt{IMDB}" dataset dowloaded from Kaggle\cite{kaggle}.\\
+    This work focuses on explaining the salient steps taken to implement a Sentiment Analysis algorithm that consists in \textit{Subjectivity Detection} and 
+    \textit{Polarity Classification}.\\
+    More in detail, a custom model is compared to a baseline in order to highlight the improvements achieved. To carry out this project, three different datasets were used: 
+    the "\texttt{MovieReviews}" and  "\texttt{Subjectivity}" datasets and the public "\texttt{IMDB}" dataset dowloaded from Kaggle\cite{kaggle}.\\
 \end{abstract}
 
 
-\textbf{\textit{Index Terms ---}} BertModel, BertTokenizer, BertForSequenceClassification, polarity classification, subjectivity detection, transformer,
-pre-trained
-
+\textbf{\textit{Index Terms ---}} BertModel, BertTokenizer, BertForSequenceClassification, polarity classification, subjectivity detection
 
 \input{Chapters/introduction.tex}
 \input{Chapters/task.tex}
@@ -57,8 +61,6 @@ pre-trained
 \input{Chapters/model.tex}
 \input{Chapters/evaluation.tex}
 \input{Chapters/conclusion.tex}
-
-
 
 \bibliographystyle{IEEEtran}
 \bibliography{mybib.bib}

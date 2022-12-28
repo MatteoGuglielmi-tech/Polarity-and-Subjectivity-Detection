@@ -1,8 +1,7 @@
 % (approx. 200-500 words)
 
 \section{Data description and analysis}
-\label{sec:data}
-For this project, I've used three different datasets to perform different steps. 
+\label{sec:data} 
 \subsection{Movie reviews dataset}
 \label{subsec:mr}
 The movie reviews dataset used in this work is directly deployed by the \texttt{nltk.corpus} python package whose characteristics are the following :
@@ -11,13 +10,16 @@ The movie reviews dataset used in this work is directly deployed by the \texttt{
     \item lexicon size : $39768$;
     \item categories : 'neg', 'pos'.
 \end{itemize}
-Each movie review has a file id associated with it which is the identification factor of movie review.\\
-The dataset presents itself in a peculiar structure. As just mentioned, each review has a specific file asociated to it so in order to ease the following work, everything has been flattened into a single list containing different documents. Each of the list element has an associated label. \\
-From an operational perspective, this dataset is used just as an "evaluation set". The motivation behind this is that the total number of reviews (elements in the list) are just $2000$. Since the procedure deployed implies to perform a fine-tuning operation of a Bert transformer model, dividing the already small dataset into train and test sets would result in an insufficient amount of data.\\
-For this reason, the whole dataset has been used just to address the final polarity classifiaction accuracy.
+Each movie review has a file id associated with it used for its identification containing all the relative information.
+%The dataset presents itself in a peculiar structure. As mentioned to each review corresponds a file containing the relative information, all files are then added to a list, 
+%each with an associated label.\\
+This dataset is used just for evaluation, since the amount of reviews is too small to perform a proper fine-tuning operation of the BertForSequenceClassification (see 
+\textbf{\Cref{subsec:custom}}).
+%For this reason, the whole dataset has been used just to address the final polarity classifiaction accuracy.
+
 \subsection{Subjectivity dataset}
 \label{subsec:subj}
-As the previously discussed dataset, also in this case the Subjectivity dataset comes from the nltk.corpus python module.\\ 
+The subjectivity dataset is provided by the \texttt{nltk.corpus} python module as well.\\ 
 The main characteristics of this dataset are :
 \begin{itemize}
     \item vocabuluary size : $240576$;
@@ -25,7 +27,10 @@ The main characteristics of this dataset are :
     \item classes : 'obj', 'subj';
     \item total number of sentences consiering both objective and subjective sentences : $10000$.
 \end{itemize}
-In this specific case, there are just two unique file ids corresponding to the documentis containing the objective and subjective sentences. The taraget datastructure used consists in the union of those two files.
+In this specific case, there are just two unique file ids corresponding to the documents containing the objective and subjective sentences. The target datastructure used 
+consists of the union of those two files.
+
 \subsection{IMDB dataset}
 \label{subsec:imdb}
-The IMDB Dataset has $50k$ movie reviews for natual language processing or text analytics ~\cite{kaggle}. This dataset can be used for binary sentiment classfication and it provides $25k$ highly polar samples for training and $25k$ samples for testing. More information reguarding this dataset can be found at ~\cite{refe}.
+The IMDB Dataset has $50'000$ movie reviews for natural language processing or text analytics ~\cite{kaggle}. This dataset can be used for binary sentiment classfication 
+and it provides $25'000$ highly polar samples for training and $25'000$ samples for testing. More information reguarding this dataset can be found at ~\cite{refe}.

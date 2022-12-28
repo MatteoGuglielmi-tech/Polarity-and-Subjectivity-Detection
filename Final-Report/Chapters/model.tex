@@ -2,24 +2,26 @@
 
 \section{Model}
 \label{sec:model}
-In order to address the proposed sentiment analysis task, I have decided to use as a baseline model a simple \texttt{Na\"{i}ve Bayes classifier} following the logical procedure explained in the \nth{11} laboratory ~\cite{lab11}.\\
-Once the baseline performances were addresses, I tried to devise a completely different pipline despite using the same coneptual workflow by making use of more complex and deep architectures (i.e. BiLSTMs and different transformer models). \\
+For the proposed task, I have decided to use a simple \texttt{Na\"{i}ve Bayes classifier} as baseline, following the logical procedure explained in the \nth{11} laboratory 
+~\cite{lab11}.\\
+Once the baseline performances were addressed, I tried to devise a completely different procedure by making use of more complex deep architectures. \\
 
+\vspace{-1.5em}
 \subsection{Architectures}
-As hinted before, both models follow the same logical flow leading to both subjectivity and polarity classification but, on the other side, 
-the single components are complitely different. In particular, the baseline approach (\textbf{\ref{subsec:baseline}}) consists in a pure shallow machine learning procedure; 
-on the other hand, for the custom model, I decided to opt for a deep architecuture-based techinque.\\
+Baseline and custom model follow the same logical flow leading to both subjectivity and polarity classification, although the single components are complitely different.
+%In particular, the baseline approach (\textbf{\Cref{subsec:baseline}}) consists in a pure shallow machine learning procedure; 
+%whereas, for the custom model, I decided to opt for a deep architecture-based techinque.\\
 The logical salient steps taken in both cases are :
 \begin{enumerate}
     \item extract the encodings of each sentence leading to a vector representation;
     \item train a ML/DL model upon the \texttt{subjectivity dataset} and save the weights;
     \item use the pre-trained model from the previous point to filter out the objective sentences;
-    \item perform polarity classification upon the sentences predicted as subjective and address the performances through the \texttt{accuracy} metrix.
+    \item perform polarity classification upon the sentences predicted as subjective and address the performances through the \texttt{accuracy} metric.
 \end{enumerate}
 
 \subsection{Na\"{i}ve Bayes classifier baseline}
 \label{subsec:baseline}
-As briefly mentioned in \Cref{sec:model}, the baseline models uses the same ingredients presented in the \nth{11} laboratory of the Natural Language Course. In particular, the followed workflow is well expressed by \texttt{Algorithm \ref{alg:baseline}}:
+Concerning the baseline, the followed workflow is well expressed by \texttt{Algorithm \ref{alg:baseline}}:
 \begin{algorithm}
     \SetAlgoLined
     \DontPrintSemicolon
@@ -27,43 +29,40 @@ As briefly mentioned in \Cref{sec:model}, the baseline models uses the same ingr
     \KwOut{subj\_acc, pol\_acc}
     \CommentSty{\color{blue}}
         \tcc{
-            subj\_dt: list of (sentences,label) \\ 
-            mr\_dt: list of (sentences,label), \\ 
-            subj\_acc: subjectivity accuracy\\
+            subj\_dt: list of (sentences,label)\; 
+            mr\_dt: list of (sentences,label),\; 
+            subj\_acc: subjectivity accuracy,\;
             pol\_acc: polarity accuracy
         }
         subj\_features $\gets$ FitVectorizerOn(subj\_dt)\;
         subj\_scores $\gets$ 10-fold-cross-val(NB\_clf, subj\_features, subj\_labels)\;
         \tcc{ 
-            considering the best estimator
+            considering best estimator
         }
         best\_clf $\gets$ $\underset{\text{clf}}{\mathrm{argmax}} \bigr($subj\_scores$\bigl)$\;
         subj\_sents $\gets$ filter\_objectivness(best\_clf(pol\_dt))\;
         \tcc{ new vectorizer and clf }
         pol\_features $\gets$ FitNewVectorizerOn(subj\_sents)\;
         pol\_scores $\gets$ 10-fold-cross-val(New\_NB\_clf, pol\_features, pol\_labels)\;
-
-
-\caption{Steps performed in baseline model.}
-\label{alg:baseline}
-
+    \caption{Steps performed in baseline model.}
+    \label{alg:baseline}
 \end{algorithm}
 
+\vspace{-2.0em}
 \subsection{Custom model}
-\label{subsec:cutsom}
-On the other side, my proposed implementation adopts only deep models to carry out this assignment. Throughout the following lines, I'll be entering 
-more in details about implementation choices and roles of the different architectures; in particular:
+\label{subsec:custom}
+On the other side, my proposed implementation adopts only deep models to carry out this assignment. In particular:
 \begin{itemize}
 
     \item the \texttt{CountVectorizer} used as embedder in the baseline has been substituted with a small pipeline composed of:
         \begin{itemize}
 
-            \item a pre-trained BertTokenizer ~\cite{tokenizer} based on WordPiece ~\cite{wordpiece} used to broke text into tokens, 
-                pad shorter sentences to the maximum length admissible by BERT ($512$), truncate to \texttt{max\_length} longer phrases 
+            \item a pre-trained BertTokenizer ~\cite{tokenizer} based on WordPiece ~\cite{wordpiece} used to break text into tokens, 
+                pad sentences to a maximum of  $512$ letters allowed by BERT, truncate to \texttt{max\_length} longer phrases 
                 and convert text into float tensors;
 
             \item a pre-trained BertModel ~\cite{model} to extract text encondings to be used later on in the pipeline. These encodings
-                are obtained by extracting the output of the transformer last hidden state with reference to ~\cite{mtl}.
+                are obtained by extracting the output of the transformer last hidden state as done in ~\cite{mtl}.
 
         \end{itemize}
 
@@ -74,50 +73,68 @@ more in details about implementation choices and roles of the different architec
                 \begin{enumerate}
 
                     \item a \texttt{BiLSTM} layer which accepts an output with a $768$ long feature vector (output of the last hidden 
-                        layer of BertModel with an hidden dimension of $128$;
+                        layer of BertModel) with an hidden dimension of $128$;
 
-                    \item a \texttt{Dense} layer with a ReLU activation function to flatten the feature maps;
+                    \item a \texttt{Dense} layer with an output size of $64$ and a ReLU activation function to flatten the feature maps;
 
-                    \item a \texttt{Dropout} layer to reduce at the minimum possible the computational load;
+                    \item a \texttt{Dropout} layer to reduce at the minimum possible the computational load with a probability of $0.35$;
 
                     \item and finally a \texttt{Linear} layer to produce a binary out.
 
                 \end{enumerate}
                 to perform subjectivity classification;
 
-            \item an instance of a \texttt{BertForSequenceClassification} model ~\cite{sequence} fine-tuned for one epoch 
-                (to shorten training times) upon the IMDB Dataset (\Cref{subsec:imdb}) for performing polarity classification 
-                upon the \texttt{MovieReviews} dataset (\Cref{subsec:mr}).
+            \item a \texttt{BertForSequenceClassification} ~\cite{sequence} model fine-tuned for one epoch 
+                (to shorten training time) upon the IMDB Dataset (\textbf{\Cref{subsec:imdb}}) for performing polarity classification 
+                upon the \texttt{MovieReviews} dataset (\textbf{\Cref{subsec:mr}}).
 
         \end{itemize}
 \end{itemize}
 
 \subsection{Optimizers}
 \label{subsec:opt}
-In this work, two different optimiers have been used:
+In this work, two different optimizers have been used:
 \begin{enumerate}
-    \item \texttt{Adam} optimizer has been used to update the BiLSTM model parameters. It's been chosen among the other options because of
+    \item \texttt{Adam} optimizer has been used to update the BiLSTM model parameters. It's been chosen among the other options due to
         its ability to converge quickly;
     \item \texttt{AdamW} optimizer has been used to train the BertForSequenceClassification model. This particular variant of the classic 
-        Adam optimizer has been used also because set as defualt option when using the \texttt{Trainer()} interface ~\cite{trainer} 
+        Adam optimizer has been used because it's the default training option when using the \texttt{Trainer()} interface ~\cite{trainer} 
 \end{enumerate}
 
 \subsection{Experiments}
 \label{subsec:exp}
-Several experiments were run using the Custom model (\Cref{subsec:cutsom}). In particular, at the beginning I tried to use the output 
-of the pre-trained BertModel instance to predict the polarity scores after having filtered out the objective sentences. \\
-The problem with this approach was that ~\cite{model} outputs by definition $5$ possible labels, ranging from $0 \to 5$. As a consequence,
-I tried to map the two lower scores ($0,1$) to the 'negative' label and the upper scores ($4,5$) to the 'positive' label leaving the score
-$3$ as an indicator of uncertainty and misclassification. After a brief analysis of the predictions, the model turned out to be heavily 
-undecided, predicting for the majority of the times the neutral label ($3$).\\
-In light of this, I tried to "flat" the $5$ predicted labels to a binary score appending a linear layer with a Sigmoid activation function
+Several experiments were run using the proposed model (\textbf{\Cref{subsec:custom}}). In particular, I initially tried to use the output 
+of the pre-trained BertModel instance to predict the polarity scores after filtering out the objective sentences. \\
+In this case the issue was that this model ~\cite{model} outputs by definition $5$ possible labels, ranging from $0 \to 5$. As a consequence,
+I tried mapping the two lowest scores ($0,1$) to the 'negative' label and the upper scores ($4,5$) to the 'positive' one, leaving  score
+$3$ as an indicator of uncertainty and misclassification. After analysing the predictions, the model turned out as heavily 
+undecided, predicting mostly $3$.\\
+With these results as a reference, I tried to "flat" the $5$ predicted labels to a binary score appending a linear layer with a Sigmoid activation function
 in combination with a \texttt{BCELoss()} ~\cite{bce}. \\
 After some research, I found out that a "C-class version" for the canonical BertModel already existed (\texttt{BertForSequenceClassification}).\\
-Thanks to that finding, I was able to exploit a pre-trained very deep model to perform binary ($C=2$) text classification in combination with a binary cross-entropy
+Thanks to that, I was able to exploit a pre-trained very deep model to perform binary ($C=2$) text classification combined with a binary cross-entropy
 loss used during the fine tuning procedure (it is worth mentioning that the Trainer class is responsible for computing some sort of loss 
-and returning it in output if no \texttt{compute\_loss()} method is specified as discussed in ~\cite{stack}). \\
-Further experiments were conduced about reducing the amount of encoded tokens by deleting from the original text elements such as stopwords, numbers,
-HTML special entities, hyperlinks, hashtags, punctuation (besides exclamation marks), words with less than $2$ letters, usernames 
-(@USERNAME) and tickers. It turned out that both BERT models achieved better results without filtering. They appear to be able to better catch 
-contexts inside the different sentences.
-
+and returning it as output if no \texttt{compute\_loss()} method is specified, as discussed in ~\cite{stack}). \\
+Further experiments were conduced attempting to reduce the amount of encoded tokens in the MovieReviews dataset by clearing the source text from  elements such as stopwords, 
+numbers, HTML special entities, hyperlinks, hashtags, punctuation (besides exclamation marks), words with less than $2$ letters, usernames (@USERNAME) and tickers. 
+It turned out that both the BiLSTM model and the BertForSequenceClassification achieved better results without filtering (see \textbf{\Cref{tab:filter}}), proving these 
+elements as relevant to the context.
+\begin{center}
+        \vspace{-3.0em}
+        \begin{table}
+            \let\TPToverlap=\TPTrlap    
+            \centering
+            \caption{Effects of filtering upon polarity dataset.}
+            \vspace{-1.0em}
+            \begin{threeparttable}
+                    \begin{tabular}{cc}
+                        \toprule
+                        \textbf{Custom Model} & \textbf{Accuracy} \\ \hline
+                        Without filtering & 0.9283 \\
+                        With filtering & 0.8642 \\
+                        \bottomrule
+                    \end{tabular}
+                    \label{tab:filter}
+            \end{threeparttable}
+        \end{table}
+\end{center}
