@@ -103,15 +103,15 @@ accuracy as well as the variance across the different runs (for details refer to
                         \toprule
                         \thead{Seeds} & \thead{Accuracy} \\
                         \hline
-                        $91$ & $89.45$ \\
-                        $11$ & $90.35$ \\
-                        $57$ & $90.85$\\
-                        $822$ & $89.45$\\
-                        $19$ & $89.2$ \\
+                        $91$ & $89.75$ \\
+                        $11$ & $90.7$ \\
+                        $57$ & $90.6$\\
+                        $822$ & $89.25$\\
+                        $19$ & $88.85$ \\
                         \hline
-                        Avg. Acc. & $89.86$ \\
+                        Avg. Acc. & $89.83$ \\
                         \hline
-                        Acc. Var. & $0.63$ \\
+                        Acc. Var. & $0.73$ \\
                         \bottomrule
                     \end{tabular}
                 \label{tab:crossval}
@@ -119,10 +119,10 @@ accuracy as well as the variance across the different runs (for details refer to
         \end{table}
 \end{center}
 
-The main reason behind using a BiLSTM model is to try to better catch the dependencies between the words in a sentence. The results turned out to be worse than the ones
-obtained with the baseline for cumulative accuracy, but better in terms of consistency and stableness. Indeed, using the same evaluation metric, the average
-statistics, listed in \textbf{\Cref{tab:comparison}}, show that the baseline reaches a better average accuracy but a higher variance across the different runs, i.e. 
-seems to be more unstable and inconsistent.\\
+The main reason behind using a BiLSTM model is to try to better catch the dependencies between the words in a sentence. Surprisingly,
+the results turned out to be worse than the ones obtained with the baseline both in terms of cumulative accuracy and stability (i.e. variance),
+as shown in \textbf{\Cref{tab:comparison}}. Despite this, the BiLSTM model is still used just to give an alternative to the baseline also 
+considering that the difference in accuracy is minimal.\\
 
 \begin{center}
         \vspace{-4.0em}
@@ -136,8 +136,8 @@ seems to be more unstable and inconsistent.\\
                         \toprule
                         \thead{Model} & \thead{Accuracy} & \thead{Variance}\\
                         \hline
-                        Baseline & $90.75\%$ & $0.00013765$ \\
-                        Custom Model & $89.86\%$ & $5.534000000000004e-05$\\
+                        Baseline & $90.75\%$ & $0.13765\%$ \\
+                        Custom Model & $89.83\%$ & $0.73\%$\\
                         \bottomrule
                     \end{tabular}
                     \label{tab:comparison}
