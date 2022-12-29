@@ -1,3 +1,6 @@
+% (approx. 100 words)
+
+\vspace{-0.5cm}
 \section{Introduction}
 \label{sec:intro}
 Sentiment analysis consists in performing sentence classification with the final goal to predict whether a sentence/review/comment expresses a positive or negative sentiment.
@@ -5,14 +8,17 @@ It is a very important task in the field of Natural Language Processing (NLP) an
 presence of negation, sarcasm, irony, and other linguistic phenomena that make the job difficult.\\ 
 %From a commercial point of view, sentiment analysis is a very important task since it can be used to automatically analyze the opinion of the customers about a product or 
 %a service. For the latter reason, many industries are interested in this specific application to understand the degree of appreciation a specific product has.\\
-In this work I'll be comparing two different models to perform sentiment and polarity classification. 
+In this work I'll be comparing two different models to perform sentiment and subjectivity classification. 
+
+\vspace{-0.25cm}
 \subsection{Baseline}
+\label{subsec:basemodel}
 The baseline model consists of:
 \begin{itemize}
     \item a \texttt{CountVectorizer}\cite{vectorizer}, which acts as an encoder, to extract the features from the text;
     \item a \texttt{Na\"{i}ve Bayes}\cite{naive} classifier to perform the final classification.
 \end{itemize}
-It is worth mentioning that both datasets were pre-processed applying double negative marking to consider double negations (double negations corresponds to a neutral effect).\\
+It is worth mentioning that both datasets were pre-processed applying double negative marking (double negations corresponds to a neutral effect).
 More in detail, the step-by-step procedure used to perform the classification is the following:
 \begin{enumerate}
     \item Pre-processing: the text is pre-processed by collapsing the several sentences in documents and the double negations are marked;
@@ -23,7 +29,7 @@ More in detail, the step-by-step procedure used to perform the classification is
     \item Feature extraction: the text belonging to the Movie Review dataset, after being processed as point (1), is encoded using a \texttt{CountVectorizer} as point (2);
     \item Classification: the encoded text is classified using a \texttt{Na\"{i}ve Bayes} classifier as point (3);
 \end{enumerate}
-\vspace{-1.0em}
+\vspace{-0.25cm}
 \subsection{Proposed model}
 The proposed model follows the same logic of the baseline but with a completely different approach.
 Very briefly, the proposed model consists in using :

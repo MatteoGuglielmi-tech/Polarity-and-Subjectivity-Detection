@@ -10,8 +10,8 @@ This section will showcase results from different runs. In particular, it is wor
         \begin{itemize}
             \item the subjectivity dataset was split into training set ($80\%$) and test set ($20\%$). The training set has been further splitted 
             with a  randomly sampled $10\%$ for evaluation pruposes;
-            \item the IMDB dataset has been splitted following the built-in format of the dataset itself ($25'000$ samples for training
-            and $25'000$ samples for evaluation)
+        \item the IMDB dataset has been splitted following the built-in format of the dataset itself (\numprint{25000} samples for training
+            and \numprint{25000} samples for evaluation)
         \end{itemize}
     \item during the training procedure an \textit{early stopper} has been used to implement early stopping. To achieve it, the 
         difference between the accuracy of the previous run and the current one is investigated. If the latter is grater than $MIN\_DELTA=0.075$, 
@@ -49,55 +49,50 @@ Regarding my proposed model, different evaluation metrics have been used for the
     \CommentSty{\color{blue}}
     precision, recall, f1, \_  $\gets$ precision\_recall\_fscore\_support(labels, preds, average='binary')\;
     acc $\gets$ accuracy\_score(labels, preds)\;
-
     return\{
             'accuracy': acc,\;
             \hspace{10mm}'f1': f1,\;
             \hspace{10mm}'precision': precision,\;
             \hspace{10mm}'recall': recall
         \}
-
 \caption{Metric computation function used in Trainer interface.}
 \label{alg:binaryclf}
-
 \end{algorithm}
-
+\vspace{-0.25cm}
 Of course, the overall objective is to maximise the accuracy on both subjectivity and polarity datasets by minimizing the losses used during the training procedure and 
 finding the best possible set of weights. 
 
+\vspace{-0.25cm}
 \subsection{Results}
 \label{subsec:res}
 In this particular section, the results obtained across different runs and experiments are analysed. 
 \begin{figure}
     \centering
     \includegraphics[scale=0.28]{Images/singlerunacc.png}
-    \vspace{-1.0em}
+    \vspace{-0.35cm}
     \caption{BiLSTM model training and evaluation accuracies on a single run.}
     \label{fig:singlerunacc}
     \includegraphics[scale=0.28]{Images/singlerunloss.png}
-    \vspace{-1.0em}
+    \vspace{-0.35cm}
     \caption{BiLSTM model training and evaluation losses on a single run.}
     \label{fig:singlerunloss}
     \includegraphics[width=0.5\textwidth]{Images/BinaryCLF.png}
-    \vspace{-1.0em}
+    \vspace{-0.35cm}
     \caption{Binary classifier statistics.}
-    \vspace{-1.0em}
     \label{fig:singleepoch}
 \end{figure}
 
-
-In \textbf{\Cref{fig:singlerunacc}} and \textbf{\Cref{fig:singlerunloss}} it is possible to appreciate the training and 
-evaluation accuracies and losses respectively, on a single run for the BiLSTM model (discussed in \textbf{\Cref{subsec:custom}}). \\
+In \textbf{\Cref{fig:singlerunacc}} and \textbf{\Cref{fig:singlerunloss}} respectively, the training and 
+evaluation accuracies and losses on a single run for the BiLSTM model (discussed in \textbf{\Cref{subsec:custom}}) are shown. \\
 Since a single run is not expressive and reliable enough, I decided to perform a 5-fold cross validation addressing both the average 
-accuracy as well as the variance across the different runs (for details refer to \textbf{\Cref{tab:crossval}}).\\
-
+accuracy as well as the variance across the different runs (for details refer to \textbf{\Cref{tab:crossval}}).
 \begin{center}
-        \vspace{-4.0em}
-        \begin{table}
+    \vspace{-0.45cm}
+    \begin{table}
             \let\TPToverlap=\TPTrlap    
             \centering
             \caption{5-fold cross validation subjectivity results using BiLSTM model}
-            \vspace{-1.0em}
+            \vspace{-0.25cm}
             \begin{threeparttable}
                     \begin{tabular}{cc}
                         \toprule
@@ -118,18 +113,18 @@ accuracy as well as the variance across the different runs (for details refer to
             \end{threeparttable}
         \end{table}
 \end{center}
-
+\vspace{-0.25cm}
 The main reason behind using a BiLSTM model is to try to better catch the dependencies between the words in a sentence. Surprisingly,
 the results turned out to be worse than the ones obtained with the baseline both in terms of cumulative accuracy and stability (i.e. variance),
 as shown in \textbf{\Cref{tab:comparison}}. Despite this, the BiLSTM model is still used just to give an alternative to the baseline also 
-considering that the difference in accuracy is minimal.\\
+considering that the difference in accuracy is minimal.
 
 \begin{center}
         \vspace{-4.0em}
         \begin{table}
             \let\TPToverlap=\TPTrlap    
             \centering
-            \caption{Comparison between the baseline and the BiLSTM model}
+            \caption{Comparison between the baseline (subjectivity detection part) and the BiLSTM model}
             \vspace{-1.0em}
             \begin{threeparttable}
                     \begin{tabular}{ccc}
@@ -161,7 +156,7 @@ times on the polarity dataset since the latter is used just for evaluation as di
                         \toprule
                         \thead{Model} & \thead{Accuracy} & \thead{Variance}\\
                         \hline
-                        Baseline & $83.2\%$ & $0.00112$\\
+                        Baseline & $83.2\%$ & $0.112\%$\\
                         Custom Model & $92.83\%$ & x\\
                         \bottomrule
                     \end{tabular}
@@ -195,7 +190,6 @@ elements. In particular:
 To further understand the reasons why the model obtained certain performances, I tried to understand whether the misclassification of a sentence and its length are related. 
 In particular, I tried to understand whether the model is more likely to make errors when dealing with long sentences. It turned out that the model
 commits errors when dealing with sequences longer than the $512$ words limit, as proof of what has been previously pointed out.\\
-
 One elegant alternative to the proposed model would be to exploit a multi-task learning approach, i.e. to train the model on both the subjectivity and the polarity datasets 
 and perform classification simultaneously. This approach would allow the model to learn the dependencies between the words in a sentence as well as the polarity and subjectivity
 of a document. However, the disparity between size of the datasets would make this method difficult to apply since the datasets would need to be of the same size.

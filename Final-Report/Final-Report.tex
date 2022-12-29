@@ -18,6 +18,9 @@
 \usepackage{amsfonts}
 \usepackage{mathtools}
 \usepackage{breakurl}
+\usepackage{numprint}
+\npthousandsep{\,}
+\npdecimalsign{.}    
 
 \newcommand*{\thead}[1]{%
 \multicolumn{1}{c}{\bfseries\begin{tabular}{@{}c@{}}#1\end{tabular}}}
@@ -45,15 +48,16 @@
 
 \maketitle
 
-\begin{abstract}
-    This work focuses on explaining the salient steps taken to implement a Sentiment Analysis algorithm that consists in \textit{Subjectivity Detection} and 
+%\begin{abstract}
+    This paper focuses on explaining the salient steps taken to implement a Sentiment Analysis algorithm that consists in \textit{Subjectivity Detection} and 
     \textit{Polarity Classification}.\\
     More in detail, a custom model is compared to a baseline in order to highlight the improvements achieved. To carry out this project, three different datasets were used: 
     the "\texttt{MovieReviews}" and  "\texttt{Subjectivity}" datasets and the public "\texttt{IMDB}" dataset dowloaded from Kaggle\cite{kaggle}.\\
-\end{abstract}
+%\end{abstract}
 
 
 \textbf{\textit{Index Terms ---}} BertModel, BertTokenizer, BertForSequenceClassification, polarity classification, subjectivity detection
+
 
 \input{Chapters/introduction.tex}
 \input{Chapters/task.tex}

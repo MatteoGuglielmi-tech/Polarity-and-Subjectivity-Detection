@@ -1,12 +1,13 @@
 % (approx. 200-500 words)
 
+\vspace{-0.25cm}
 \section{Model}
 \label{sec:model}
 For the proposed task, I have decided to use a simple \texttt{Na\"{i}ve Bayes classifier} as baseline, following the logical procedure explained in the \nth{11} laboratory 
 ~\cite{lab11}.\\
 Once the baseline performances were addressed, I tried to devise a completely different procedure by making use of more complex deep architectures. \\
 
-\vspace{-1.5em}
+\vspace{-0.5cm}
 \subsection{Architectures}
 Baseline and custom model follow the same logical flow leading to both subjectivity and polarity classification, although the single components are complitely different.
 %In particular, the baseline approach (\textbf{\Cref{subsec:baseline}}) consists in a pure shallow machine learning procedure; 
@@ -21,46 +22,48 @@ The logical salient steps taken in both cases are :
 
 \subsection{Na\"{i}ve Bayes classifier baseline}
 \label{subsec:baseline}
-Concerning the baseline, the followed workflow is well expressed by \texttt{Algorithm \ref{alg:baseline}}:
-\begin{algorithm}
-    \SetAlgoLined
-    \DontPrintSemicolon
-    \KwIn{subj\_dt, mr\_dt}    
-    \KwOut{subj\_acc, pol\_acc}
-    \CommentSty{\color{blue}}
-        \tcc{
-            subj\_dt: list of (sentences,label)\; 
-            mr\_dt: list of (sentences,label),\; 
-            subj\_acc: subjectivity accuracy,\;
-            pol\_acc: polarity accuracy
-        }
-        subj\_features $\gets$ FitVectorizerOn(subj\_dt)\;
-        subj\_scores $\gets$ 10-fold-cross-val(NB\_clf, subj\_features, subj\_labels)\;
-        \tcc{ 
-            considering best estimator
-        }
-        best\_clf $\gets$ $\underset{\text{clf}}{\mathrm{argmax}} \bigr($subj\_scores$\bigl)$\;
-        subj\_sents $\gets$ filter\_objectivness(best\_clf(pol\_dt))\;
-        \tcc{ new vectorizer and clf }
-        pol\_features $\gets$ FitNewVectorizerOn(subj\_sents)\;
-        pol\_scores $\gets$ 10-fold-cross-val(New\_NB\_clf, pol\_features, pol\_labels)\;
-    \caption{Steps performed in baseline model.}
-    \label{alg:baseline}
-\end{algorithm}
+Concerning the baseline, the followed workflow is well described in \textbf{\Cref{subsec:basemodel}}. Further details can be found in the source notebook 
+\footnote{\url{https://github.com/MatteoGuglielmi-tech/Polarity-and-Subjectivity-Detection/blob/main/src/BaselineModel.ipynb}} in the GitHub repository 
+\footnote{\url{https://github.com/MatteoGuglielmi-tech/Polarity-and-Subjectivity-Detection}} of the project.\\
+%\begin{algorithm}
+%    \SetAlgoLined
+%    \DontPrintSemicolon
+%    \KwIn{subj\_dt, mr\_dt}    
+%    \KwOut{subj\_acc, pol\_acc}
+%    \CommentSty{\color{blue}}
+%        \tcc{
+%            subj\_dt: list of (sentences,label)\; 
+%            mr\_dt: list of (sentences,label),\; 
+%            subj\_acc: subjectivity accuracy,\;
+%            pol\_acc: polarity accuracy
+%        }
+%        subj\_features $\gets$ FitVectorizerOn(subj\_dt)\;
+%        subj\_scores $\gets$ 10-fold-cross-val(NB\_clf, subj\_features, subj\_labels)\;
+%        \tcc{ 
+%            considering best estimator
+%        }
+%        best\_clf $\gets$ $\underset{\text{clf}}{\mathrm{argmax}} \bigr($subj\_scores$\bigl)$\;
+%        subj\_sents $\gets$ filter\_objectivness(best\_clf(pol\_dt))\;
+%        \tcc{ new vectorizer and clf }
+%        pol\_features $\gets$ FitNewVectorizerOn(subj\_sents)\;
+%        pol\_scores $\gets$ 10-fold-cross-val(New\_NB\_clf, pol\_features, pol\_labels)\;
+%    \caption{Steps performed in baseline model.}
+%    \label{alg:baseline}
+%\end{algorithm}
+%
+%\vspace{-2.0em}
 
-\vspace{-2.0em}
+\vspace{-0.5cm}
 \subsection{Custom model}
 \label{subsec:custom}
 On the other side, my proposed implementation adopts only deep models to carry out this assignment. In particular:
 \begin{itemize}
-
     \item the \texttt{CountVectorizer} used as embedder in the baseline has been substituted with a small pipeline composed of:
+
         \begin{itemize}
 
             \item a pre-trained BertTokenizer ~\cite{tokenizer} based on WordPiece ~\cite{wordpiece} used to break text into tokens, 
-                pad sentences to a maximum of  $512$ letters allowed by BERT, truncate to \texttt{max\_length} longer phrases 
-                and convert text into float tensors;
-
+                pad and truncate sentences to \texttt{max\_length} ($512$ words) and convert text into float tensors;
             \item a pre-trained BertModel ~\cite{model} to extract text encondings to be used later on in the pipeline. These encodings
                 are obtained by extracting the output of the transformer last hidden state as done in ~\cite{mtl}.
 
@@ -72,8 +75,8 @@ On the other side, my proposed implementation adopts only deep models to carry o
             \item a simple \texttt{BiLSTM} network consisting of : 
                 \begin{enumerate}
 
-                    \item a \texttt{BiLSTM} layer which accepts an output with a $768$ long feature vector (output of the last hidden 
-                        layer of BertModel) with an hidden dimension of $128$;
+                    \item a \texttt{BiLSTM} layer which accepts as input a $768$ long feature vector (output of the last hidden 
+                        layer of BertModel) with a hidden dimension of $128$;
 
                     \item a \texttt{Dense} layer with an output size of $64$ and a ReLU activation function to flatten the feature maps;
 
@@ -91,6 +94,7 @@ On the other side, my proposed implementation adopts only deep models to carry o
         \end{itemize}
 \end{itemize}
 
+\vspace{-0.5cm}
 \subsection{Optimizers}
 \label{subsec:opt}
 In this work, two different optimizers have been used:
@@ -101,6 +105,7 @@ In this work, two different optimizers have been used:
         Adam optimizer has been used because it's the default training option when using the \texttt{Trainer()} interface ~\cite{trainer} 
 \end{enumerate}
 
+\vspace{-0.25cm}
 \subsection{Experiments}
 \label{subsec:exp}
 Several experiments were run using the proposed model (\textbf{\Cref{subsec:custom}}). In particular, I initially tried to use the output 
